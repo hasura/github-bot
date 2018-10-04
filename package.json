@@ -1,0 +1,17 @@
+{
+  "name": "hasura-github-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/rest": "^15.12.1",
+    "@octokit/webhooks": "^5.0.2",
+    "node-fetch": "^2.2.0"
+  }
+}
