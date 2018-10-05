@@ -1,5 +1,9 @@
 {
     "public": true,
     "alias": "hasura-github-bot",
-    "name": "hasura-github-bot"
+    "name": "hasura-github-bot",
+    "env": {
+        "GITHUB_TOKEN": "@hasura-bot-github-commenter-token",
+        "WEBHOOK_SECRET": "@hasura-bot-github-commenter-webhook-secret"
+    }
 }
