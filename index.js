@@ -86,11 +86,11 @@ Whoa! :tada: :tada: :dancer:
 
 ![GIF](https://media1.tenor.com/images/15ae412a294bf128f6ba7e60aa0ea8e1/tenor.gif)
 
-Awesome work @${login}! :muscle: :trophy: All of us at Hasura :heart: what you did. :heavy_check_mark:
+Awesome work @${login}! :muscle: :trophy: All of us at Hasura :heart: what you did.
 
-We would love to send you some swag! :shirt: Please allow us to do so by filling [this form](https://goo.gl/forms/4NxUyIeTVwyWjGqE3) :pencil:
+We would love to send you some swag! :shirt: Please allow us to do so by filling [this form](https://goo.gl/forms/4NxUyIeTVwyWjGqE3)
 
-If you have any questions :question:, ask us on our [Discord](https://discord.gg/3FNQnWj) & [Twitter](https://twitter.com/HasuraHQ)!
+If you have any questions, ask us on our [Discord](https://discord.gg/3FNQnWj) & [Twitter](https://twitter.com/HasuraHQ)!
 
 Thanks again :hugs:`;
       }
