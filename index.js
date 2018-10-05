@@ -124,7 +124,7 @@ const isHasuraOrgMember = (name) => {
 
 const isInvalid = (labels) => {
   for (label of labels) {
-    if (label === 'invalid') {
+    if (label.name === 'invalid') {
       return true;
     }
   }
