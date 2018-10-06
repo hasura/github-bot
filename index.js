@@ -35,13 +35,9 @@ webhooks.on('pull_request', async ({id, name, payload}) => {
     if (action === 'opened') {
       const body = `Beep boop! :robot:
 
-Hey @${login}!
+Hey @${login}, thanks for your PR!
 
-Thanks for your PR! :sparkles:
-
-I can't wait to merge it :crossed_fingers: :hammer_and_wrench:, but I don't have the permissions to do so. :x:
-
-One of my human :woman: friends will review the changes :memo: and get back to you as soon as possible. :clock1:
+One of my human friends will review this PR and get back to you as soon as possible. :clock1:
 
 Stay awesome! :sunglasses:`;
       try {
