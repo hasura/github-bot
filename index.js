@@ -84,7 +84,7 @@ Whoa! :tada: :tada: :dancer:
 
 Awesome work @${login}! :muscle: :trophy: All of us at Hasura :heart: what you did.
 
-We would love to send you some swag! :shirt: Please allow us to do so by filling [this form](https://goo.gl/forms/4NxUyIeTVwyWjGqE3).
+We would love to send you some swag! Please fill [this form](https://goo.gl/forms/4NxUyIeTVwyWjGqE3).
 
 If you have any questions, ask us on our [Discord](https://discord.gg/3FNQnWj) & [Twitter](https://twitter.com/HasuraHQ)!
 
