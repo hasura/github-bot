@@ -67,11 +67,7 @@ Hey @${login}!
 
 Sorry that your PR wasn’t merged. :cry:
 
-We appreciate your effort and want to reward you with some Hasura swag! :sunglasses:
-
-Please do fill out :memo: [this form](https://goo.gl/forms/4NxUyIeTVwyWjGqE3) so we can :ship: them to you.
-
-And do take a look at any of the other open :open_file_folder: issues to see if you’d like to take something up! We’re around on [Discord](https://discord.gg/3FNQnWj) & [Twitter](https://twitter.com/HasuraHQ) if you have any questions :smile:`;
+Do take a look at any of the other open issues to see if you’d like to take something up! We’re around on [Discord](https://discord.gg/3FNQnWj) & [Twitter](https://twitter.com/HasuraHQ) if you have any questions :smile:`;
 
       }
 
@@ -83,10 +79,6 @@ Whoa! :tada: :tada: :dancer:
 ![GIF](https://media1.tenor.com/images/15ae412a294bf128f6ba7e60aa0ea8e1/tenor.gif)
 
 Awesome work @${login}! :muscle: :trophy: All of us at Hasura :heart: what you did.
-
-We would love to send you some swag! Please fill [this form](https://goo.gl/forms/4NxUyIeTVwyWjGqE3).
-
-If you have any questions, ask us on our [Discord](https://discord.gg/3FNQnWj) & [Twitter](https://twitter.com/HasuraHQ)!
 
 Thanks again :hugs:`;
       }
