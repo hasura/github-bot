@@ -101,7 +101,7 @@ webhooks.on('error', (error) => {
 });
 
 const isHasuraOrgMember = (name) => {
-  const HASURA_ORG_MEMBERS = ['coco98', 'rikinsk', 'ecthiender', 'rajoshighosh', 'paranoidsp', 'shahidhk', 'achocolatebear', '0x777', 'tirumaraiselvan', 'rakeshkky', 'praveenweb', 'arvi3411301', 'nizar-m', 'anandfeb25', 'dsandip', 'karthikvt26', 'surendran82', 'wawhal', 'shark-h', 'hasura-bot'];
+  const HASURA_ORG_MEMBERS = ['coco98', 'rikinsk', 'ecthiender', 'rajoshighosh', 'shahidhk', 'achocolatebear', '0x777', 'tirumaraiselvan', 'rakeshkky', 'praveenweb', 'arvi3411301', 'nizar-m', 'anandfeb25', 'dsandip', 'karthikvt26', 'surendran82', 'wawhal', 'shark-h', 'hasura-bot', 'AnnieAtHasura'];
   for (member of HASURA_ORG_MEMBERS) {
     if (name === member) {
       return true;
