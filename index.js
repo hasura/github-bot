@@ -16,9 +16,8 @@ octokit.authenticate({
 
 webhooks.on('pull_request', async ({id, name, payload}) => {
   if (name === 'pull_request') {
-    const { action, number, repository, sender, pull_request: { merged, labels,
-                                                                user: {login} }}
-          = payload;
+    const {action, number, repository, sender} = payload;
+    const {pull_request: {merged, labels, user: {login}}} = payload;
 
     let hfu = false;
     try {
@@ -42,7 +41,10 @@ One of my human friends will review this PR and get back to you as soon as possi
 Stay awesome! :sunglasses:`;
       try {
         const result = await octokit.issues.createComment({
-          owner: repository.owner.login, repo: repository.name, number, body
+          owner: repository.owner.login, 
+          repo: repository.name, 
+          number, 
+          body
         });
       } catch (error) {
         console.error(error);
@@ -85,7 +87,10 @@ Thanks again :hugs:`;
 
       try {
         const result = await octokit.issues.createComment({
-          owner: repository.owner.login, repo: repository.name, number, body
+          owner: repository.owner.login, 
+          repo: repository.name, 
+          number, 
+          body
         });
       } catch (error) {
         console.error(error);
@@ -101,13 +106,16 @@ webhooks.on('error', (error) => {
 });
 
 const isHasuraOrgMember = (name) => {
-  const HASURA_ORG_MEMBERS = ['coco98', 'rikinsk', 'ecthiender', 'rajoshighosh', 'shahidhk', 'achocolatebear', '0x777', 'tirumaraiselvan', 'rakeshkky', 'praveenweb', 'arvi3411301', 'nizar-m', 'anandfeb25', 'dsandip', 'karthikvt26', 'surendran82', 'wawhal', 'shark-h', 'hasura-bot', 'AnnieAtHasura', 'vnovick'];
-  for (member of HASURA_ORG_MEMBERS) {
-    if (name === member) {
-      return true;
-    }
-  }
-  return false;
+  const HASURA_ORG_MEMBERS = [
+    'coco98', 'rikinsk', 'ecthiender', 
+    'rajoshighosh', 'shahidhk', 'achocolatebear',
+    '0x777', 'tirumaraiselvan', 'rakeshkky', 
+    'praveenweb', 'arvi3411301', 'nizar-m', 
+    'anandfeb25', 'dsandip', 'karthikvt26',
+    'surendran82', 'wawhal', 'shark-h', 
+    'hasura-bot', 'AnnieAtHasura', 'vnovick'
+  ];
+  return Boolean(HASURA_ORG_MEMBERS.find(member => member === name))
 };
 
 const isInvalid = (labels) => {
@@ -123,11 +131,7 @@ const isHacktoberfestUser = (user) => {
   return new Promise((resolve, reject) => {
     fetch(`https://hacktoberfest.digitalocean.com/stats/${user}`)
       .then(res => {
-        if (res.status === 200) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+        resolve(res.status === 200);
       })
       .catch(err => {
         console.error(err);
