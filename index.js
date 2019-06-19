@@ -74,11 +74,9 @@ Do take a look at any of the other open issues to see if you’d like to take so
       if (merged) {
         body = `Beep boop! :robot:
 
-Whoa! :tada: :tada: :dancer:
-
 ![GIF](https://media1.tenor.com/images/15ae412a294bf128f6ba7e60aa0ea8e1/tenor.gif)
 
-Awesome work @${login}! :muscle: :trophy: All of us at Hasura :heart: what you did.
+Awesome work @${login}! All of us at Hasura :heart: what you did.
 
 Thanks again :hugs:`;
       }
