@@ -3,15 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node -r esm index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@octokit/rest": "^15.12.1",
     "@octokit/webhooks": "^5.0.2",
-    "node-fetch": "^2.2.0"
+    "node-fetch": "^2.2.0",
+    "esm": "^3.2.25"
+  },
+  "devDependencies": {
+    "esm": "^3.2.25"
   }
 }
