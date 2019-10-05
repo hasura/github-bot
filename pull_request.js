@@ -85,7 +85,7 @@ const pullRequestHandler = (octokit) => {
 };
 
 const isInvalid = (labels) => {
-  for (label of labels) {
+  for (let label of labels) {
     if (label.name === 'invalid') {
       return true;
     }
