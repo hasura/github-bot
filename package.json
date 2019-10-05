@@ -19,6 +19,7 @@
     "esm": "^3.2.25"
   },
   "devDependencies": {
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "eventsource": "^1.0.7"
   }
 }

@@ -1,9 +1,13 @@
 {
-    "public": true,
-    "alias": "hasura-github-bot",
-    "name": "hasura-github-bot",
-    "env": {
-        "GITHUB_TOKEN": "@hasura-bot-github-commenter-token",
-        "WEBHOOK_SECRET": "@hasura-bot-github-commenter-webhook-secret"
-    }
+  "version": 2,
+  "public": true,
+  "alias": "hasura-github-bot",
+  "name": "hasura-github-bot",
+  "builds": [
+    {"src": "index.js", "use": "@now/node"}
+  ],
+  "env": {
+    "GITHUB_TOKEN": "@hasura-bot-github-commenter-token",
+    "WEBHOOK_SECRET": "@hasura-bot-github-commenter-webhook-secret"
+  }
 }
