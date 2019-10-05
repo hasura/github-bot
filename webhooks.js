@@ -33,7 +33,13 @@ module.exports = (req, res) => {
     name: req.headers['x-github-event'],
     payload: req.body,
     signature: req.headers['x-hub-signature']
-  }).catch(console.error);
+  }).then(() => {
+    console.log('hanlded event');
+    res.status(200).send('OK');
+  }).catch((e) => {
+    console.error('ERROR: ', e);
+    res.status(500).send('ERROR');
+  });
 };
 
 
