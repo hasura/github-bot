@@ -27,19 +27,25 @@ webhooks.on('error', (error) => {
 
 
 module.exports = (req, res) => {
-  // put this inside your webhooks route handler
-  webhooks.verifyAndReceive({
-    id: req.headers['x-github-delivery'],
-    name: req.headers['x-github-event'],
-    payload: req.body,
-    signature: req.headers['x-hub-signature']
-  }).then(() => {
-    console.log('hanlded event');
-    res.status(200).send('OK');
-  }).catch((e) => {
-    console.error('ERROR: ', e);
-    res.status(500).send('ERROR');
-  });
+  if (req.method === 'POST') {
+    webhooks.verifyAndReceive({
+      id: req.headers['x-github-delivery'],
+      name: req.headers['x-github-event'],
+      payload: req.body,
+      signature: req.headers['x-hub-signature']
+    }).then(() => {
+      console.log('hanlded event');
+      return res.status(200).send('OK');
+    }, (e) => {
+      console.error('ERROR: ', e);
+      return res.status(500).send('ERROR');
+    }).catch((e) => {
+      console.error('EXCEPTION: ', e);
+      return res.status(500).send('ERROR');
+    });
+  } else {
+    return res.status(404).send('looking for post?');
+  }
 };
 
 
