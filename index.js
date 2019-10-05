@@ -28,3 +28,4 @@ webhooks.on('error', (error) => {
 
 require('http').createServer(webhooks.middleware).listen(3000);
 // can now receive webhook events at port 3000
+console.log('server listening...');
