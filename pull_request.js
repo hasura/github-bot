@@ -20,7 +20,7 @@ const pullRequestHandler = (octokit) => {
         username: login
       });
       console.log('checking user membership: ', result);
-      if !(result.status === 204 || result.status === 302) {
+      if (!(result.status === 204 || result.status === 302)) {
         // establish user is not a hasura org member
         console.log(login, ' is not a hasura org member');
         isHasuraOrgMember = false;
