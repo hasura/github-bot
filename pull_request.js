@@ -11,22 +11,26 @@ const pullRequestHandler = (octokit) => {
     const {action, number, repository, sender} = payload;
     const {pull_request: {merged, labels, user: {login}}} = payload;
 
-    // assume everyone is a hasura org member
-    // this is to avoid embarassing messages to our own folks
-    let isHasuraOrgMember = true;
+    let isHasuraOrgMember = false;
     try {
       let result = await octokit.orgs.checkMembership({
         org: 'hasura',
         username: login
       });
-      console.log('checking user membership: ', result);
-      if (!(result.status === 204 || result.status === 302)) {
+      console.log('checking user membership');
+      if (result.status === 204 || result.status === 302) {
         // establish user is not a hasura org member
-        console.log(login, ' is not a hasura org member');
-        isHasuraOrgMember = false;
+        console.log(login, 'is a hasura org member');
+        isHasuraOrgMember = true;
       }
     } catch (e) {
-      console.error('error while checking for user's hasura org membership: ', e);
+      if (e.code === 404) {
+        console.log(login, 'is not a hasura org member');
+      } else {
+        console.error('error while checking for hasura org membership: ', e.toString());
+        // cannot reliably do anything, so do nothing
+        return;
+      }
     }
 
     // do nothing if the user is a Hasura org member
