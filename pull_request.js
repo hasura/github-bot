@@ -11,7 +11,7 @@ const pullRequestHandler = (octokit) => {
     const {action, number, repository, sender} = payload;
     const {pull_request: {merged, labels, user: {login}}} = payload;
 
-    let isHasuraOrgMember = false;
+    let isHasuraOrgMember = true;
     try {
       let result = await octokit.orgs.checkMembership({
         org: 'hasura',
@@ -21,7 +21,7 @@ const pullRequestHandler = (octokit) => {
       if (result.status === 204 || result.status === 302) {
         // establish user is not a hasura org member
         console.log(login, 'is a hasura org member');
-        isHasuraOrgMember = true;
+        isHasuraOrgMember = false;
       }
     } catch (e) {
       if (e.code === 404) {
