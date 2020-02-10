@@ -114,7 +114,6 @@ const handleIssueComment = async (payload) => {
     const build_number = statuses['check_build_worthiness']['build_number'];
 //  Get the current build info to find the workflow name.
     const current_build_info = await getBuildInfo(user, repo, build_number);
-    console.log(current_build_info);
     if (!current_build_info) {
       console.log('Cannot fetch build info')
       //  TODO: return a response object
@@ -141,14 +140,17 @@ const handleIssueComment = async (payload) => {
       //  TODO: return a response object
     }
 
-    const consoleBranch_json = await getBuildInfo(user, repo, statuses[console_status_name]['build_number']);
+
+    const server_build_number = statuses[console_status_name]['build_number'];
+    const console_build_number = statuses[server_status_name]['build_number'];
+    const consoleBranch_json = await getBuildInfo(user, repo, console_build_number);
     const consoleBranch = getPullRequest(consoleBranch_json['branch']);
     if (consoleBranch === "") {
       postComment(repo, issue_number, `@${user} not able to deploy heroku app`)
       //  TODO: return a response object
     }
 
-    const serverBranch_json = await getBuildInfo(user, repo, statuses[server_status_name]['build_number']);
+    const serverBranch_json = await getBuildInfo(user, repo, server_build_number);
     const serverBranch = getPullRequest(serverBranch_json['branch']);
     if (serverBranch === "" || serverBranch !== consoleBranch) {
       postComment(repo, issue_number, `@${user} not able to deploy heroku app`)
@@ -156,9 +158,14 @@ const handleIssueComment = async (payload) => {
     }
 
 //  Get artifacts list
-    statuses[console_status_name]['artifacts'] = getArtifacts(user, repo, statuses[console_status_name]['build_number']);
-    statuses[server_status_name]['artifacts'] = getArtifacts(user, repo, statuses[server_status_name]['build_number']);
-    console.log('App deployed with zero errors')
+    statuses[console_status_name]['artifacts'] = getArtifacts(user, repo, console_build_number);
+    statuses[server_status_name]['artifacts'] = getArtifacts(user, repo, server_build_number);
+    // Incomplete function to trigger a circle ci job
+    triggerDeployJob(server_build_number, console_build_number).then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      console.log(`Error occurred: `, err)
+    })
   } else if (comment[1] === 'delete') {
     await deleteHerokuApp(issue_number);
     postComment(repo, issue_number, `Review App https://hge-ci-pull-${issue_number}.herokuapp.com is deleted`)
@@ -253,6 +260,22 @@ const getArtifacts = async (login, repo, build_number) => {
   });
 
   return await api.artifacts(build_number)
+};
+
+const triggerDeployJob = async (server_build_number, console_build_number) => {
+  const url = `https://circleci.com/api/v1.1/project/github/hasura/circleci-test?circle-token=${CIRCLECI_TOKEN}`;
+  const data = { "build_parameters": {
+      "SERVER_BUILD_NUMBER": server_build_number,
+      "CONSOLE_BUILD_NUMBER": console_build_number,
+    }};
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  });
+  return await response.json();
 };
 
 const deleteHerokuApp = async (pullNumber) => {
