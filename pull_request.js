@@ -70,7 +70,7 @@ const pullRequestHandler = (octokit) => {
       }
 
       // pr has an invalid label and closed, reply with novalue comment
-      if (!merged && hasLabel(labels, 'invalid')) {
+      if (!merged && hasLabel(labels, 'invalid 🚫')) {
         console.log(`pr is closed with invalid label, send a bitter sorry`);
         message = prNovalue(login);
       }
