@@ -33,7 +33,9 @@ const prMerged = (login) => {
 
 ![GIF](https://media1.tenor.com/images/15ae412a294bf128f6ba7e60aa0ea8e1/tenor.gif)
 
-Awesome work @${login}! All of us at Hasura :heart: what you did.
+Awesome work @${login}!
+
+Your changes were [merged successfully](https://github.com/hasura/graphql-engine/commits/master). All of us at Hasura :heart: what you did.
 
 Thanks again :hugs:`;
 };
