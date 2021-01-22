@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:7.10
+    working_directory: ~/circleci-test
+
+    steps:
+      - checkout
+      - run:
+          name: deploy-app
+          command: .circleci/delete.sh
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
