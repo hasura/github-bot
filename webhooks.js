@@ -46,7 +46,7 @@ module.exports = (req, res) => {
       return res.status(500).send('ERROR');
     });
   } else {
-    return res.status(404).send('looking for post?');
+    return res.status(404).send('Looking for post?');
   }
 };
 

@@ -70,13 +70,13 @@ const pullRequestHandler = (octokit) => {
       }
 
       // pr has an invalid label and closed, reply with novalue comment
-      if (!merged && isInvalid(labels)) {
+      if (!merged && hasLabel(labels, 'invalid 🚫')) {
         console.log(`pr is closed with invalid label, send a bitter sorry`);
         message = prNovalue(login);
       }
 
       // pr is merged
-      if (merged) {
+      if (merged || hasLabel(labels, 'merged')) {
         console.log(`pr is merged, congratulate`);
         message = prMerged(login);
       }
@@ -92,14 +92,13 @@ const pullRequestHandler = (octokit) => {
   };
 };
 
-const isInvalid = (labels) => {
+const hasLabel = (labels, target) => {
   for (let label of labels) {
-    if (label.name === 'invalid') {
+    if (label.name === target) {
       return true;
     }
   }
   return false;
 };
-
 
 export default pullRequestHandler;
