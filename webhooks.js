@@ -1,5 +1,5 @@
 import WebhooksApi from '@octokit/webhooks';
-import octokitLib from '@octokit/rest';
+import { Octokit } from '@octokit/rest';
 import fetch from 'node-fetch';
 
 import pullRequestHandler from './pull_request';
@@ -11,11 +11,8 @@ const webhooks = new WebhooksApi({
   secret: WEBHOOK_SECRET || 'mysecret'
 });
 
-const octokit = octokitLib();
-
-octokit.authenticate({
-  type: 'token',
-  token: GITHUB_TOKEN
+const octokit = new Octokit({
+  auth: GITHUB_TOKEN,
 });
 
 // a new pull request event

@@ -13,7 +13,7 @@ const pullRequestHandler = (octokit) => {
 
     let isHasuraOrgMember = false;
     try {
-      let result = await octokit.orgs.checkMembership({
+      let result = await octokit.orgs.checkMembershipForUser({
         org: 'hasura',
         username: login
       });
@@ -47,7 +47,7 @@ const pullRequestHandler = (octokit) => {
       const result = await octokit.issues.createComment({
         owner: repository.owner.login,
         repo: repository.name,
-        number,
+        issue_number: number,
         body: prOpened(login)
       });
     }
@@ -85,7 +85,7 @@ const pullRequestHandler = (octokit) => {
       const result = await octokit.issues.createComment({
         owner: repository.owner.login,
         repo: repository.name,
-        number,
+        issue_number: number,
         body: message
       });
     }
