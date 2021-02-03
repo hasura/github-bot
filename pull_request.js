@@ -4,7 +4,7 @@ import { prOpened, prClosed, prNovalue, prMerged } from './messages';
 
 async function shadowOssPr(octokit, ossPrNumber) {
   try {
-    console.log('dispatching migrate-hge-pr github workflow');
+    console.log('dispatching github workflow: migrate-hge-pr');
     let shadowPr = await octokit.actions.createWorkflowDispatch({
       owner: 'hasura',
       repo: 'graphql-engine-mono',
@@ -15,7 +15,7 @@ async function shadowOssPr(octokit, ossPrNumber) {
       },
     });
   } catch (e) {
-    console.error('failed to shadow pull request with error');
+    console.error('failed to dispatch github workflow: migrate-hge-pr');
     console.error(e);
   }
 }
