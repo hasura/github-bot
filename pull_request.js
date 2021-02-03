@@ -2,6 +2,24 @@
 
 import { prOpened, prClosed, prNovalue, prMerged } from './messages';
 
+async function shadowOssPr(octokit, ossPrNumber) {
+  try {
+    console.log('dispatching migrate-hge-pr github workflow');
+    let shadowPr = await octokit.actions.createWorkflowDispatch({
+      owner: 'hasura',
+      repo: 'graphql-engine-mono',
+      workflow_id: 'migrate-hge-pr.yml',
+      ref: 'main',
+      inputs: {
+        ossPrNumber: `${ossPrNumber}`
+      },
+    });
+  } catch (e) {
+    console.error('failed to shadow pull request with error');
+    console.error(e);
+  }
+}
+
 const pullRequestHandler = (octokit) => {
   return async ({ id, name, payload }) => {
 
@@ -10,6 +28,10 @@ const pullRequestHandler = (octokit) => {
     // extract relevant information
     const {action, number, repository, sender} = payload;
     const {pull_request: {merged, labels, user: {login}}} = payload;
+
+    if ((action === 'opened') || (action === 'synchronize')) {
+      await shadowOssPr(octokit, number);
+    }
 
     let isHasuraOrgMember = false;
     try {
