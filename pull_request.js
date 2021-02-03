@@ -27,10 +27,12 @@ const pullRequestHandler = (octokit) => {
 
     // extract relevant information
     const {action, number, repository, sender} = payload;
-    const {pull_request: {merged, labels, user: {login}}} = payload;
+    const {pull_request: {merged, body, labels, user: {login}}} = payload;
 
     if ((action === 'opened') || (action === 'synchronize')) {
-      await shadowOssPr(octokit, number);
+      if (!body.startsWith('<!-- from mono -->')) {
+        await shadowOssPr(octokit, number);
+      }
     }
 
     let isHasuraOrgMember = false;
