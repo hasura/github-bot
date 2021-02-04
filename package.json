@@ -8,18 +8,20 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r esm index.js"
+    "start": "node -r esm index.js",
+    "dev": "vercel dev"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@octokit/rest": "^15.12.1",
+    "@octokit/rest": "^18.1.0",
     "@octokit/webhooks": "^5.0.2",
     "node-fetch": "^2.2.0",
     "esm": "^3.2.25"
   },
   "devDependencies": {
     "esm": "^3.2.25",
-    "eventsource": "^1.0.7"
+    "eventsource": "^1.0.7",
+    "vercel": "^21.2.2"
   }
 }

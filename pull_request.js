@@ -2,6 +2,24 @@
 
 import { prOpened, prClosed, prNovalue, prMerged } from './messages';
 
+async function shadowOssPr(octokit, ossPrNumber) {
+  try {
+    console.log('dispatching github workflow: migrate-hge-pr');
+    let shadowPr = await octokit.actions.createWorkflowDispatch({
+      owner: 'hasura',
+      repo: 'graphql-engine-mono',
+      workflow_id: 'migrate-hge-pr.yml',
+      ref: 'main',
+      inputs: {
+        ossPrNumber: `${ossPrNumber}`
+      },
+    });
+  } catch (e) {
+    console.error('failed to dispatch github workflow: migrate-hge-pr');
+    console.error(e);
+  }
+}
+
 const pullRequestHandler = (octokit) => {
   return async ({ id, name, payload }) => {
 
@@ -9,11 +27,20 @@ const pullRequestHandler = (octokit) => {
 
     // extract relevant information
     const {action, number, repository, sender} = payload;
-    const {pull_request: {merged, labels, user: {login}}} = payload;
+    const {pull_request: {merged, body, labels, user: {login}}} = payload;
+
+    if ((action === 'opened') || (action === 'synchronize')) {
+      // There could be PRs which are shadowed from monorepo to oss repo
+      // via devbot. Such PRs are identified by a `<!-- mono -->` prefix.
+      // Shadowing such PRs is essential to avoid cyclic shadowing.
+      if (!body.startsWith('<!-- from mono -->')) {
+        await shadowOssPr(octokit, number);
+      }
+    }
 
     let isHasuraOrgMember = false;
     try {
-      let result = await octokit.orgs.checkMembership({
+      let result = await octokit.orgs.checkMembershipForUser({
         org: 'hasura',
         username: login
       });
@@ -47,7 +74,7 @@ const pullRequestHandler = (octokit) => {
       const result = await octokit.issues.createComment({
         owner: repository.owner.login,
         repo: repository.name,
-        number,
+        issue_number: number,
         body: prOpened(login)
       });
     }
@@ -85,7 +112,7 @@ const pullRequestHandler = (octokit) => {
       const result = await octokit.issues.createComment({
         owner: repository.owner.login,
         repo: repository.name,
-        number,
+        issue_number: number,
         body: message
       });
     }
