@@ -30,6 +30,9 @@ const pullRequestHandler = (octokit) => {
     const {pull_request: {merged, body, labels, user: {login}}} = payload;
 
     if ((action === 'opened') || (action === 'synchronize')) {
+      // There could be PRs which are shadowed from monorepo to oss repo
+      // via devbot. Such PRs are identified by a `<!-- mono -->` prefix.
+      // Shadowing such PRs is essential to avoid cyclic shadowing.
       if (!body.startsWith('<!-- from mono -->')) {
         await shadowOssPr(octokit, number);
       }
