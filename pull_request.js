@@ -2,40 +2,47 @@
 
 import { prOpened, prClosed, prNovalue, prMerged } from './messages';
 
-async function shadowOssPr(octokit, ossPrNumber) {
-  try {
-    console.log('dispatching github workflow: migrate-hge-pr');
-    let shadowPr = await octokit.actions.createWorkflowDispatch({
-      owner: 'hasura',
-      repo: 'graphql-engine-mono',
-      workflow_id: 'migrate-hge-pr.yml',
-      ref: 'main',
-      inputs: {
-        ossPrNumber: `${ossPrNumber}`
-      },
-    });
-  } catch (e) {
-    console.error('failed to dispatch github workflow: migrate-hge-pr');
-    console.error(e);
-  }
+function monoRepoWorkflowDispatch(octokit, name) {
+  return async (inputs) => {
+    try {
+      console.log(`dispatching github workflow: ${name}`);
+      await octokit.actions.createWorkflowDispatch({
+        owner: 'hasura',
+        repo: 'graphql-engine-mono',
+        workflow_id: `${name}.yml`,
+        ref: 'main',
+        inputs,
+      });
+    } catch (e) {
+      console.error(`failed to dispatch github workflow: ${name}`);
+      console.error(e);
+    }
+  };
 }
 
 const pullRequestHandler = (octokit) => {
+  const shadowOssPr = monoRepoWorkflowDispatch(octokit, 'migrate-hge-pr');
+  const deleteReviewApp = monoRepoWorkflowDispatch(octokit, 'delete-review-app');
+
   return async ({ id, name, payload }) => {
 
     console.log(`received pull request event: ${id}`);
 
     // extract relevant information
     const {action, number, repository, sender} = payload;
-    const {pull_request: {merged, body, labels, user: {login}}} = payload;
+    const {pull_request: {html_url: prLink, merged, body, labels, user: {login}}} = payload;
 
     if ((action === 'opened') || (action === 'synchronize')) {
       // There could be PRs which are shadowed from monorepo to oss repo
       // via devbot. Such PRs are identified by a `<!-- mono -->` prefix.
       // Shadowing such PRs is essential to avoid cyclic shadowing.
       if (!body.startsWith('<!-- from mono -->')) {
-        await shadowOssPr(octokit, number);
+        await shadowOssPr({ossPrNumber: `${number}`});
       }
+    }
+
+    if (action === 'closed') {
+      await deleteReviewApp(octokit, 'delete-review-app', {prLink});
     }
 
     let isHasuraOrgMember = false;
