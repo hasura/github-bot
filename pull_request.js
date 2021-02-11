@@ -15,6 +15,15 @@ const pullRequestHandler = (octokit) => {
     const {action, number, repository, sender} = payload;
     const {pull_request: {html_url: prLink, merged, body, labels, user: {login}}} = payload;
 
+    if (action === 'closed') {
+      await deleteReviewApp(octokit, 'delete-review-app', {prLink});
+    }
+
+    if (repository.name !== 'graphql-engine') {
+      console.log(`ignoring event as it originated from ${repository.name}`);
+      return;
+    }
+
     if ((action === 'opened') || (action === 'synchronize')) {
       // There could be PRs which are shadowed from monorepo to oss repo
       // via devbot. Such PRs are identified by a `<!-- mono -->` prefix.
@@ -22,10 +31,6 @@ const pullRequestHandler = (octokit) => {
       if (!body.startsWith('<!-- from mono -->')) {
         await shadowOssPr({ossPrNumber: `${number}`});
       }
-    }
-
-    if (action === 'closed') {
-      await deleteReviewApp(octokit, 'delete-review-app', {prLink});
     }
 
     let isHasuraOrgMember = false;
