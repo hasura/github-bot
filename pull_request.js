@@ -16,7 +16,7 @@ const pullRequestHandler = (octokit) => {
     const {pull_request: {html_url: prLink, merged, body, labels, user: {login}}} = payload;
 
     if (action === 'closed') {
-      await deleteReviewApp(octokit, 'delete-review-app', {prLink});
+      await deleteReviewApp({prLink});
     }
 
     if (repository.name !== 'graphql-engine') {
