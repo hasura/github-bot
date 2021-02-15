@@ -3,6 +3,7 @@ import { Octokit } from '@octokit/rest';
 import fetch from 'node-fetch';
 
 import pullRequestHandler from './pull_request';
+import issueCommentHandler from './issue_comment';
 
 const WEBHOOK_SECRET = process.env['WEBHOOK_SECRET'];
 const GITHUB_TOKEN = process.env['GITHUB_TOKEN'];
@@ -15,7 +16,7 @@ const octokit = new Octokit({
   auth: GITHUB_TOKEN,
 });
 
-// a new pull request event
+webhooks.on('issue_comment', issueCommentHandler(octokit));
 webhooks.on('pull_request', pullRequestHandler(octokit));
 
 webhooks.on('error', (error) => {
