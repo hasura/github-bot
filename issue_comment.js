@@ -1,9 +1,6 @@
-import { monoRepoWorkflowDispatch } from './github_action';
+import { handleSlashCommands } from './slash_commands';
 
 const issueCommentHandler = (octokit) => {
-  const createReviewApp = monoRepoWorkflowDispatch(octokit, 'create-review-app');
-  const deleteReviewApp = monoRepoWorkflowDispatch(octokit, 'delete-review-app');
-
   return async ({ id, name, payload }) => {
     console.log(`received issue comment event: ${id}`);
 
@@ -17,25 +14,8 @@ const issueCommentHandler = (octokit) => {
       return;
     }
 
-    const { comment: {body}, issue: {pull_request: {html_url: prLink}}} = payload;
-    const commentBody = body.toUpperCase();
-    const herokuSlashCommand = '/heroku '.toUpperCase();
-
-    if (!commentBody.startsWith(herokuSlashCommand)) {
-      console.log('ignoring event as it does not contain slash command');
-      return;
-    }
-
-    switch(commentBody.replace(herokuSlashCommand, '').trim()) {
-      case 'DEPLOY':
-        console.log('triggering heroku deploy');
-        await createReviewApp({prLink});
-        break;
-      case 'DELETE':
-        console.log('triggering heroku delete');
-        await deleteReviewApp({prLink});
-        break;
-    }
+    const { comment: {body}, issue: {number: prNumber, pull_request: {html_url: prLink}}} = payload;
+    await handleSlashCommands(body, {octokit, prLink, prNumber});
   };
 };
 
