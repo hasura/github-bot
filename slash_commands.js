@@ -6,14 +6,14 @@ export const handleSlashCommands = async (message, data) => {
   const slashCommands = [heroku, changelog];
 
   for (let slashCommand of slashCommands) {
-    if (slashCommand.foundIn(message)) {
+    if (slashCommand.check(message)) {
       await slashCommand.handle(message, data);
       return;
     }
   }
 }
 
-const slashCommandMatcher = (slashCommand) => {
+const slashCommandChecker = (slashCommand) => {
   return (message) => {
     if (!message) {
       return false;
@@ -41,7 +41,7 @@ const heroku = {
   slashCommand: '/heroku'
 };
 
-heroku.foundIn = slashCommandMatcher(heroku.slashCommand);
+heroku.check = slashCommandChecker(heroku.slashCommand);
 heroku.handle = subCommandMatcher(heroku.slashCommand, {
   'DEPLOY': async ({octokit, prLink}) => {
     console.log('triggering heroku deploy');
@@ -59,7 +59,7 @@ const changelog = {
   slashCommand: '/changelog',
 };
 
-changelog.foundIn = slashCommandMatcher(changelog.slashCommand);
+changelog.check = slashCommandChecker(changelog.slashCommand);
 changelog.handle = subCommandMatcher(changelog.slashCommand, {
   'OK': async ({octokit, prNumber}) => {
     console.log('triggering changelog check');
