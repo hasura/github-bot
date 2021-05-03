@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 
 import pullRequestHandler from './pull_request';
 import issueCommentHandler from './issue_comment';
+import pullRequestReviewHandler from './pull_request_review';
 
 const WEBHOOK_SECRET = process.env['WEBHOOK_SECRET'];
 const GITHUB_TOKEN = process.env['GITHUB_TOKEN'];
@@ -18,6 +19,7 @@ const octokit = new Octokit({
 
 webhooks.on('issue_comment', issueCommentHandler(octokit));
 webhooks.on('pull_request', pullRequestHandler(octokit));
+webhooks.on('pull_request_review', pullRequestReviewHandler(octokit));
 
 webhooks.on('error', (error) => {
   console.log(`Error occured in "${error.event.name} handler: ${error.stack}"`);
