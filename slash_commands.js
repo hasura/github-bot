@@ -1,6 +1,9 @@
 import { monoRepoWorkflowDispatch } from './github_action';
 
 export const handleSlashCommands = async (message, data) => {
+  if (!message) {
+    return;
+  }
   message = message.toUpperCase();
 
   const slashCommands = [heroku, changelog];
