@@ -22,7 +22,7 @@ const pullRequestHandler = (octokit) => {
 
     if ((repository.name === 'graphql-engine-mono')) {
       if ((action === 'synchronize') || ((action === 'labeled') && (label.name === 'no-changelog-required'))) {
-        await checkChangelog({prNumber: number});
+        await checkChangelog({prNumber: `${number}`});
       }
     }
 

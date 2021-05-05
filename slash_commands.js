@@ -67,6 +67,6 @@ changelog.handle = subCommandMatcher(changelog.slashCommand, {
   'OK': async ({octokit, prNumber}) => {
     console.log('triggering changelog check');
     const checkChangelog = monoRepoWorkflowDispatch(octokit, 'check-changelog');
-    await checkChangelog({prNumber})
+    await checkChangelog({prNumber: `${prNumber}`});
   }
 });
