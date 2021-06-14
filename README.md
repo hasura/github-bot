@@ -19,8 +19,10 @@ Deployed on [Zeit Now](https://zeit.co/now): https://hasura-github-bot.now.sh
   ```bash
   npm run dev
   ```
-  **Note:** If you have installed the `vercel` npm package globally(with `-g` flag), you can directly run `vercel dev` command.  
   **Note:** By default `vercel` starts the server on port 3000. You can set a different port using the `--listen` flag.
+  ```bash
+  npm run dev -- --listen <port>
+  ```
 - Set up port forwarding with `ngrok`(install `ngrok` from [here](https://ngrok.com/download) if you don't already have it):
   ```bash
   ngrok http <port>
