@@ -48,17 +48,3 @@ module.exports = (req, res) => {
   }
 };
 
-
-// // uncomment and do node index.js for local development
-// import EventSource from 'eventsource';
-// const webhookProxyUrl = 'https://smee.io/JBPDF4Rxfx5K01x';
-// const source = new EventSource(webhookProxyUrl);
-// source.onmessage = (event) => {
-//   const webhookEvent = JSON.parse(event.data);
-//   webhooks.verifyAndReceive({
-//     id: webhookEvent['x-request-id'],
-//     name: webhookEvent['x-github-event'],
-//     signature: webhookEvent['x-hub-signature'],
-//     payload: webhookEvent.body
-//   }).catch(console.error);
-// };
