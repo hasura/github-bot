@@ -70,3 +70,16 @@ changelog.handle = subCommandMatcher(changelog.slashCommand, {
     await checkChangelog({prNumber: `${prNumber}`});
   }
 });
+
+const depGraph = {
+    slashCommand: '/dep-graph'
+};
+
+depGraph.check = slashCommandChecker(depGraph.slashCommand);
+depGraph.handle = subCommandMatcher(depGraph.slashCommand, {
+    'SERVER': async ({octokit, prNumber}) => {
+        console.log('commenting dependency graph for server changes');
+        const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
+        await commentDepGraph({prLink});
+    }
+});
