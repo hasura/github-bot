@@ -7,7 +7,7 @@ export const handleSlashCommands = async (message, data) => {
   }
   message = message.toUpperCase();
 
-  const slashCommands = [heroku, changelog];
+  const slashCommands = [heroku, changelog, depGraph];
 
   for (let slashCommand of slashCommands) {
     if (slashCommand.check(message)) {
@@ -15,6 +15,7 @@ export const handleSlashCommands = async (message, data) => {
       return;
     }
   }
+  console.log('no supported slash command found');
 }
 
 const slashCommandChecker = (slashCommand) => {
@@ -75,7 +76,6 @@ changelog.handle = subCommandMatcher(changelog.slashCommand, {
 const depGraph = {
     slashCommand: '/dep-graph'
 };
-const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
 const commentDepGraphHelpMessage = ({octokit, prLink}) => {
     const prLinkRegex = /https:\/\/github.com\/hasura\/(.*)\/pull\/(\d+)/;
     const [, repoName, prNumber] = prLink.match(prLinkRegex);
@@ -92,22 +92,25 @@ depGraph.check = slashCommandChecker(depGraph.slashCommand);
 depGraph.handle = subCommandMatcher(depGraph.slashCommand, {
     'SERVER': async ({octokit, prLink}) => {
         console.log('commenting dependency graph for server changes');
+        const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
         await commentDepGraph({
-            prLink
+            prLink,
             context: 'server'
         });
     },
     'PRO-SERVER': async ({octokit, prNumber}) => {
         console.log('commenting dependency graph for pro server changes');
+        const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
         await commentDepGraph({
-            prLink
+            prLink,
             context: 'pro-server'
         });
     },
     'ALL': async ({octokit, prNumber}) => {
         console.log('commenting dependency graph for all changes');
+        const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
         await commentDepGraph({
-            prLink
+            prLink,
             context: 'all'
         });
     },

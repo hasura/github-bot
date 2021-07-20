@@ -34,7 +34,7 @@ module.exports = (req, res) => {
       payload: req.body,
       signature: req.headers['x-hub-signature']
     }).then(() => {
-      console.log('hanlded event');
+      console.log('handled event');
       return res.status(200).send('OK');
     }, (e) => {
       console.error('ERROR: ', e);
