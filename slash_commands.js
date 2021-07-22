@@ -98,7 +98,7 @@ depGraph.handle = subCommandMatcher(depGraph.slashCommand, {
             context: 'server'
         });
     },
-    'PRO-SERVER': async ({octokit, prNumber}) => {
+    'PRO-SERVER': async ({octokit, prLink}) => {
         console.log('commenting dependency graph for pro server changes');
         const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
         await commentDepGraph({
@@ -106,7 +106,7 @@ depGraph.handle = subCommandMatcher(depGraph.slashCommand, {
             context: 'pro-server'
         });
     },
-    'ALL': async ({octokit, prNumber}) => {
+    'ALL': async ({octokit, prLink}) => {
         console.log('commenting dependency graph for all changes');
         const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
         await commentDepGraph({
