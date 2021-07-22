@@ -41,6 +41,7 @@ Thanks again :hugs:`;
 };
 
 const depGraphHelpMessage = `Available commands:
+
 \`/dep-graph help\`: Display this help message
 
 \`/dep-graph server\`: Comment dependency graph for changes in server codebase
