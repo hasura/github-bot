@@ -1,4 +1,5 @@
 import { monoRepoWorkflowDispatch } from './github_action';
+import { depGraphHelpMessage } from './messages';
 
 export const handleSlashCommands = async (message, data) => {
   if (!message) {
@@ -6,7 +7,7 @@ export const handleSlashCommands = async (message, data) => {
   }
   message = message.toUpperCase();
 
-  const slashCommands = [heroku, changelog];
+  const slashCommands = [heroku, changelog, depGraph];
 
   for (let slashCommand of slashCommands) {
     if (slashCommand.check(message)) {
@@ -14,6 +15,7 @@ export const handleSlashCommands = async (message, data) => {
       return;
     }
   }
+  console.log('no supported slash command found');
 }
 
 const slashCommandChecker = (slashCommand) => {
@@ -69,4 +71,55 @@ changelog.handle = subCommandMatcher(changelog.slashCommand, {
     const checkChangelog = monoRepoWorkflowDispatch(octokit, 'check-changelog');
     await checkChangelog({prNumber: `${prNumber}`});
   }
+});
+
+const depGraph = {
+    slashCommand: '/dep-graph'
+};
+const commentDepGraphHelpMessage = ({octokit, prLink}) => {
+    const prLinkRegex = /https:\/\/github.com\/hasura\/(.*)\/pull\/(\d+)/;
+    const [, repoName, prNumber] = prLink.match(prLinkRegex);
+
+    octokit.issues.createComment({
+        owner: 'hasura',
+        repo: repoName,
+        issue_number: prNumber,
+        body: depGraphHelpMessage
+    });
+}
+
+depGraph.check = slashCommandChecker(depGraph.slashCommand);
+depGraph.handle = subCommandMatcher(depGraph.slashCommand, {
+    'SERVER': async ({octokit, prLink}) => {
+        console.log('commenting dependency graph for server changes');
+        const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
+        await commentDepGraph({
+            prLink,
+            context: 'server'
+        });
+    },
+    'PRO-SERVER': async ({octokit, prNumber}) => {
+        console.log('commenting dependency graph for pro server changes');
+        const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
+        await commentDepGraph({
+            prLink,
+            context: 'pro-server'
+        });
+    },
+    'ALL': async ({octokit, prNumber}) => {
+        console.log('commenting dependency graph for all changes');
+        const commentDepGraph = monoRepoWorkflowDispatch(octokit, 'comment-dependency-graph');
+        await commentDepGraph({
+            prLink,
+            context: 'all'
+        });
+    },
+    '': async ({octokit, prLink}) => {
+        console.log('commenting help message');
+        await commentDepGraphHelpMessage({octokit, prLink});
+    },
+    'HELP': async ({octokit, prLink}) => {
+        console.log('commenting help message');
+        await commentDepGraphHelpMessage({octokit, prLink});
+    }
 });
