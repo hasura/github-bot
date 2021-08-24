@@ -35,7 +35,7 @@ const pullRequestHandler = (octokit) => {
       // There could be PRs which are shadowed from monorepo to oss repo
       // via devbot. Such PRs are identified by a `<!-- mono -->` prefix.
       // Shadowing such PRs is essential to avoid cyclic shadowing.
-      if (!body.startsWith('<!-- from mono -->')) {
+      if (body && !body.startsWith('<!-- from mono -->')) {
         await shadowOssPr({ossPrNumber: `${number}`});
       }
     }
@@ -53,7 +53,7 @@ const pullRequestHandler = (octokit) => {
         isHasuraOrgMember = true;
       }
     } catch (e) {
-      if (e.code === 404) {
+      if (e.status === 404) {
         console.log(login, 'is not a hasura org member');
       } else {
         console.error('error while checking for hasura org membership: ', e.toString());
