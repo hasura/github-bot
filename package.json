@@ -16,7 +16,7 @@
   "dependencies": {
     "@octokit/rest": "^18.1.0",
     "@octokit/webhooks": "^5.0.2",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^2.6.7",
     "esm": "^3.2.25"
   },
   "devDependencies": {
