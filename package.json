@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@octokit/rest": "^18.1.0",
-    "@octokit/webhooks": "^5.0.2",
+    "@octokit/webhooks": "^9.26.3",
     "node-fetch": "^2.2.0",
     "esm": "^3.2.25"
   },
