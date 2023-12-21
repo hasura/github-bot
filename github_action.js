@@ -15,3 +15,21 @@ export function monoRepoWorkflowDispatch(octokit, name) {
     }
   };
 }
+
+export function engineV3WorkflowDispatch(octokit, name) {
+  return async (inputs) => {
+    try {
+      console.log(`dispatching github workflow: ${name}`);
+      await octokit.actions.createWorkflowDispatch({
+        owner: 'hasura',
+        repo: 'v3-engine',
+        workflow_id: `${name}.yml`,
+        ref: 'main',
+        inputs,
+      });
+    } catch (e) {
+      console.error(`failed to dispatch github workflow: ${name}`);
+      console.error(e);
+    }
+  };
+}

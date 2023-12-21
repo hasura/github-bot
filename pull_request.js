@@ -1,10 +1,14 @@
 // pull_request.js: all PR related handlers
 
 import { prOpened, prClosed, prNovalue, prMerged } from './messages';
-import { monoRepoWorkflowDispatch } from './github_action';
+import { engineV3WorkflowDispatch, monoRepoWorkflowDispatch } from './github_action';
 
 const pullRequestHandler = (octokit) => {
-  const shadowOssPr = monoRepoWorkflowDispatch(octokit, 'migrate-hge-pr');
+  const shadowOssPr = (input) => Promise.all([
+    monoRepoWorkflowDispatch(octokit, 'migrate-hge-pr')(input),
+    engineV3WorkflowDispatch(octokit, 'migrate-hge-pr')(input),
+  ]);
+  
   const deleteReviewApp = monoRepoWorkflowDispatch(octokit, 'delete-review-app');
   const checkChangelog = monoRepoWorkflowDispatch(octokit, 'check-changelog');
 
