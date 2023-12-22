@@ -8,9 +8,6 @@ const pullRequestHandler = (octokit) => {
     monoRepoWorkflowDispatch(octokit, 'migrate-hge-pr')(input),
     engineV3WorkflowDispatch(octokit, 'migrate-hge-pr')(input),
   ]);
-  
-  const deleteReviewApp = monoRepoWorkflowDispatch(octokit, 'delete-review-app');
-  const checkChangelog = monoRepoWorkflowDispatch(octokit, 'check-changelog');
 
   return async ({ id, name, payload }) => {
 
@@ -19,16 +16,6 @@ const pullRequestHandler = (octokit) => {
     // extract relevant information
     const {action, number, repository, sender, label} = payload;
     const {pull_request: {html_url: prLink, merged, body, labels, user: {login}}} = payload;
-
-    if (action === 'closed') {
-      await deleteReviewApp({prLink});
-    }
-
-    if ((repository.name === 'graphql-engine-mono')) {
-      if ((action === 'synchronize') || ((action === 'labeled') && (label.name === 'no-changelog-required'))) {
-        await checkChangelog({prNumber: `${number}`});
-      }
-    }
 
     if (repository.name !== 'graphql-engine') {
       console.log(`ignoring event as it originated from ${repository.name}`);
