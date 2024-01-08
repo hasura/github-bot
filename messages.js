@@ -7,7 +7,7 @@ Thanks for your PR @${login}!
 
 A member of our team will review it and provide feedback shortly. We appreciate your patience and enthusiasm in improving Hasura.
 
-Best regards!`;
+Thank you for your contribution :rocket:`;
 };
 
 const prClosed = (login) => {
