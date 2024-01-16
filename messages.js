@@ -1,43 +1,47 @@
 // messages.js: messages used to comment etc.
 
 const prOpened = (login) => {
-  return `Beep boop! :robot:
+  return `:robot:
 
-Hey @${login}, thanks for your PR!
+Thanks for your PR @${login}!
 
-One of my human friends will review this PR and get back to you as soon as possible.
+A member of our team will review it and provide feedback shortly. We appreciate your patience and enthusiasm in improving Hasura.
 
-Stay awesome! :sunglasses:`;
+Thank you for your contribution :rocket:`;
 };
 
 const prClosed = (login) => {
-  return `Beep boop! :robot:
+  return `:robot:
 
-Hey @${login}!
+Hi, @${login} —
 
-Sorry that your PR wasn’t merged.
+We regret to inform you that your PR has not been merged. However, your efforts are greatly appreciated, and we encourage you to stay involved.
 
-Do take a look at any of the other [open issues](https://github.com/hasura/graphql-engine/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) to see if you’d like to take something up! We’re around on [Discord](https://discord.gg/3FNQnWj) if you have any questions :smile:`;
+Please consider contributing to other [open issues](https://github.com/hasura/graphql-engine/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) that might align with your expertise. Our community is active on [Discord](https://discord.gg/3FNQnWj), and we're here to support you with any questions you might have.
+
+Thank you for your understanding and continued support.`
 };
 
 const prNovalue = (login) => {
-  return `Beep boop! :robot:
+  return `:robot:
 
-Hi @${login}, we appreciate the effort, but this pull request doesn't add any value.
+  Thank you for your submission. We value your contribution, although after careful review, we've determined that this PR doesn't align with our current project needs.
 
-Feel free to pick up an issue labelled [\`good first issue\`](https://github.com/hasura/graphql-engine/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22) or [\`hacktoberfest\`](https://github.com/hasura/graphql-engine/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3Ahacktoberfest) :smile:`;
+  This does not reflect the quality of your work, and we encourage you to explore other [open issues](https://github.com/hasura/graphql-engine/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22) labeled as [\`good first issue\`](https://github.com/hasura/graphql-engine/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22) or [\`hacktoberfest\`](https://github.com/hasura/graphql-engine/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3Ahacktoberfest). We're here to assist on [Discord](https://discord.gg/3FNQnWj) if you have any questions.
+  
+  Keep up the great work, and we look forward to your future contributions!`;
 };
 
 const prMerged = (login) => {
-  return `Beep boop! :robot:
+  return `:robot:
 
 ![GIF](https://media1.tenor.com/images/15ae412a294bf128f6ba7e60aa0ea8e1/tenor.gif)
 
-Awesome work @${login}!
+Awesome work, @${login}!
 
 Your changes were [merged successfully](https://github.com/hasura/graphql-engine/commits/master). All of us at Hasura :heart: what you did.
 
-Thanks again :hugs:`;
+Thanks again :rocket:`;
 };
 
 const depGraphHelpMessage = `Available commands:
